@@ -1,0 +1,19 @@
+```yaml
+name: Build kexploit
+on: [push]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build dylib
+        run: |
+          clang -dynamiclib -o kexploit.dylib \
+            -framework Foundation -framework UIKit -framework IOSurface \
+            kexploit.m sandbox_escape.m
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: kexploit
+          path: kexploit.dylib
+```
